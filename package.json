@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "@aws-amplify/backend-function": "^1.14.1",
     "aws-amplify": "^6.15.1",
     "sharp": "^0.33.5"
   },
@@ -9,6 +10,7 @@
   "devDependencies": {
     "@aws-amplify/backend": "^1.16.1",
     "@aws-amplify/backend-cli": "^1.8.0",
+    "@types/aws-lambda": "^8.10.152",
     "aws-cdk-lib": "^2.189.1",
     "constructs": "^10.4.2",
     "esbuild": "^0.25.5",
@@ -18,9 +20,8 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "eject": "react-scripts eject"
   },
   "keywords": [],
   "author": "",
