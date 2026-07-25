@@ -93,8 +93,10 @@ CREATE INDEX idx_customers_email_trgm ON customers USING gin (email gin_trgm_ops
 CREATE INDEX idx_customers_bio_trgm ON customers USING gin (bio gin_trgm_ops);
 
 ANALYZE customers;
-2. Connection Pooling in Python (psycopg2)
-Python
+```
+
+### 2. Connection Pooling in Python (psycopg2)
+```Python
 from psycopg2 import pool
 
 # Initialize persistent connection pool
@@ -115,9 +117,11 @@ try:
     # Execute query...
 finally:
     db_pool.putconn(conn) # Always return connection to pool
-3. Production Deployment with Gunicorn
-Bash
+
+### 3. Production Deployment with Gunicorn
+```bash
 gunicorn -w 4 -b 0.0.0.0:5000 app:app
+
 🧠 Lessons Learned & Key Takeaways
 Diagnose Before You Scale: CloudWatch metrics and DB execution plans eliminated compute capacity as the root cause, preventing costly and unnecessary infrastructure upgrades.
 
