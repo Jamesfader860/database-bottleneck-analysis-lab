@@ -117,10 +117,12 @@ try:
     # Execute query...
 finally:
     db_pool.putconn(conn) # Always return connection to pool
+```
 
 ### 3. Production Deployment with Gunicorn
 ```bash
 gunicorn -w 4 -b 0.0.0.0:5000 app:app
+```
 
 🧠 Lessons Learned & Key Takeaways
 Diagnose Before You Scale: CloudWatch metrics and DB execution plans eliminated compute capacity as the root cause, preventing costly and unnecessary infrastructure upgrades.
