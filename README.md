@@ -124,23 +124,29 @@ finally:
 gunicorn -w 4 -b 0.0.0.0:5000 app:app
 ```
 
-🧠 Lessons Learned & Key Takeaways
-Diagnose Before You Scale: CloudWatch metrics and DB execution plans eliminated compute capacity as the root cause, preventing costly and unnecessary infrastructure upgrades.
+## 🧠 Key Takeaways & Architectural Lessons
 
-Standard Indexes Have Limits: Standard B-Tree indexes cannot index leading wildcards (%string). Trigram GIN indexes (pg_trgm) are required for fast pattern matching.
+* **Diagnose Before You Scale:** CloudWatch metrics and database execution plans eliminated compute capacity as the root cause—preventing costly, unnecessary infrastructure upgrades.
+* **Standard Indexes Have Limits:** Standard B-Tree indexes cannot evaluate leading wildcards (`LIKE '%term%'`). GIN indexes using PostgreSQL's `pg_trgm` extension are essential for fast pattern matching.
+* **Connection Overhead Adds Up:** Creating new database connections per request carries a heavy TCP/TLS handshake cost. Reusing persistent connections via application pooling yields massive latency reductions in microservices.
+* **Dev Servers Belong in Dev:** Single-threaded development servers choke under concurrent traffic. Deploying multi-worker WSGI servers like Gunicorn is mandatory for production Python workloads.
 
-Connection Overhead Adds Up: Database connections are expensive. Reusing persistent connections via application pooling yields massive latency reductions in microservices.
+---
 
-Dev Servers Belong in Dev: Single-threaded development servers choke under concurrent traffic; multi-worker WSGI servers (like Gunicorn) are mandatory for production Python workloads.
+## 📁 Repository Structure
 
-📁 Repository Structure
-Plaintext
+```plaintext
 database-bottleneck-analysis-lab/
 ├── app.py                      # Flask API with psycopg2 connection pooling
 ├── load_test.py                # Multi-threaded benchmark testing script
 ├── README.md                   # Project documentation
-└── screenshots/                # Evidence of performance milestones
-    ├── 01-load-test-baseline.png
+└── Screenshots/                # Evidence of performance milestones
+    ├── 01-aws-infrastructure-setup.png
+    ├── 02-db-available-with-endpoint.png
+    ├── 03-sample-data-loaded.png
+    ├── 04-baseline-cloudwatch.png
+    ├── 05-baseline-performance.png
+    ├── 06-load-test-terminal.png
     ├── 07-bottleneck-cloudwatch.png
     ├── 08-trgm-indexes-created.png
     ├── 09-explain-analyze-bitmap-scan.png
@@ -148,3 +154,4 @@ database-bottleneck-analysis-lab/
     ├── 10b-connection-pool-endpoint.png
     ├── 11-optimized-load-test-results.png
     └── 12-optimized-cloudwatch-metrics.png
+```
